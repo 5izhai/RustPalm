@@ -1,0 +1,10 @@
+{
+  "app": {
+    "bundleName": "com.rustpalm.client",
+    "vendor": "RustPalm",
+    "versionCode": 10006,
+    "versionName": "0.1.6",
+    "icon": "$media:rustpalm_app_icon",
+    "label": "$string:app_name"
+  }
+}

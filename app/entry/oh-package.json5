@@ -1,0 +1,11 @@
+{
+  "name": "entry",
+  "version": "0.1.6",
+  "description": "RustPalm remote desktop controller.",
+  "main": "",
+  "author": "RustPalm",
+  "license": "AGPL-3.0-only",
+  "dependencies": {
+    "libentry.so": "file:./src/main/cpp/types/libentry"
+  }
+}
