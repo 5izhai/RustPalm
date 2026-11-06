@@ -39,8 +39,7 @@ export default class EntryAbility extends UIAbility {
   onBackground(): void {
     AppStorage.SetOrCreate<boolean>('rustpalmForeground', false);
     this.dispatchLifecycle('rustpalm_app_background');
-    // A short system-granted grace period helps a call/app switch complete.
-    // Do not masquerade as audio playback or promise indefinite background execution.
+    // Request a bounded background grace period during calls or app switches.
     if (AppStorage.get<boolean>('rustpalmSessionActive') === true && this.suspendDelayId < 0) {
       try {
         const delay = backgroundTaskManager.requestSuspendDelay('保持远程桌面连接', () => {

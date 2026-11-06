@@ -1,7 +1,5 @@
 // ArkTS wrapper around the native module (libentry.so -> librustdesk.so).
-// Native calls throw JS Errors when librustdesk.so is missing or a contract
-// symbol cannot be resolved; this wrapper logs and degrades to safe return
-// values so the UI never crashes on a broken install.
+// Native errors are logged and converted to failure return values.
 
 import native from 'libentry.so';
 import { hilog } from '@kit.PerformanceAnalysisKit';
@@ -51,8 +49,7 @@ export function ffiDeinitVideo(uuid: string): number {
   }
 }
 
-// Session kind for ffiSessionNew (contract §2): remote control, file
-// transfer, view camera.
+// Session kinds accepted by ffiSessionNew.
 export const SESSION_KIND_CONTROL = 0;
 export const SESSION_KIND_FILE_TRANSFER = 1;
 export const SESSION_KIND_VIEW_CAMERA = 2;
@@ -291,7 +288,7 @@ export function ffiSendClipboardImagePng(uuid: string, pngBase64: string): numbe
 }
 
 // ---------------------------------------------------------------------------
-// Display options: image quality / codec preference / view-only (contract §2).
+// Display options: image quality / codec preference / view-only.
 // ---------------------------------------------------------------------------
 
 export function ffiSessionGetOption(uuid: string, key: string): string {

@@ -27,5 +27,5 @@ client/.deps-work-x86_64/
 /*.jpeg
 /l4.json
 
-# built native libs are copied here from harmonyos/client/out (README step 4)
+# Generated native libraries.
 entry/libs/

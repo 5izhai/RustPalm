@@ -1,15 +1,7 @@
 // RustDesk OHOS controller NAPI wrapper.
-//
-// The Rust side (librustdesk.so) is built separately and is NOT linked at
-// build time: every symbol from the FFI contract
-// (docs/harmonyos-migration/ohos-controller-ffi.md) is resolved with
-// dlopen/dlsym on first use. When the library or a symbol is missing, NAPI
-// calls throw a JS error instead of crashing.
-//
-// Event/clipboard callbacks are marshalled to the JS thread with
-// napi_threadsafe_function. The RGBA frame callback never enters the JS
-// thread: the pixels are blitted straight into the XComponent surface's
-// NativeWindow buffer on the calling (Rust) thread.
+// librustdesk.so is loaded with dlopen/dlsym; missing symbols raise JS errors.
+// Event and clipboard callbacks use napi_threadsafe_function. RGBA frames are
+// copied to the XComponent NativeWindow on the calling Rust thread.
 
 #include "napi/native_api.h"
 #include "native_window/external_window.h"
@@ -34,7 +26,7 @@
 #define LOG_TAG "RustDeskNapi"
 
 // ---------------------------------------------------------------------------
-// librustdesk.so C ABI (contract v M1). Keep typedefs in sync with the doc.
+// librustdesk.so C ABI
 // ---------------------------------------------------------------------------
 
 typedef void (*rd_event_cb_t)(const char* json);
@@ -92,7 +84,7 @@ typedef int32_t (*fn_ohos_close_voice_call_t)(const char* uuid);
 typedef int32_t (*fn_ohos_answer_voice_call_t)(const char* uuid, int32_t accept);
 typedef int32_t (*fn_ohos_send_clipboard_image_png_t)(const char* uuid, const char* png_base64);
 
-// Display options (quality / codec preference / view-only), contract v M2.
+// Display options: quality / codec preference / view-only.
 typedef char* (*fn_ohos_session_get_option_t)(const char* uuid, const char* key);
 typedef int32_t (*fn_ohos_session_set_option_t)(const char* uuid, const char* key,
                                                 const char* value);
@@ -104,7 +96,7 @@ typedef int32_t (*fn_ohos_get_toggle_option_t)(const char* uuid, const char* nam
 typedef int32_t (*fn_ohos_update_supported_decodings_t)(const char* uuid);
 typedef char* (*fn_ohos_alternative_codecs_t)(const char* uuid);
 
-// Controlled side (controlled peer), contract v M3.
+// Controlled side (controlled peer).
 typedef int32_t (*fn_ohos_server_start_t)(void);
 typedef int32_t (*fn_ohos_server_start_service_t)(void);
 typedef int32_t (*fn_ohos_server_stop_service_t)(void);

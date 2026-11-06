@@ -1,4 +1,3 @@
-# the minimum version of CMake.
 cmake_minimum_required(VERSION 3.5.0)
 project(rustdesk_entry)
 
@@ -15,9 +14,8 @@ add_library(entry SHARED napi_init.cpp)
 target_compile_options(entry PRIVATE -std=c++17 -Wall -fvisibility=hidden)
 
 # libnative_window.so / libnative_buffer.so: XComponent surface rendering.
-# librustdesk.so is deliberately NOT linked here; napi_init.cpp resolves the
-# Rust FFI symbols at runtime with dlopen/dlsym so the UI still boots (with
-# graceful errors) before/without the Rust library.
+# napi_init.cpp loads librustdesk.so at runtime with dlopen/dlsym and reports
+# missing symbols through NAPI errors.
 target_link_libraries(entry PUBLIC
     libace_napi.z.so
     libnative_window.so

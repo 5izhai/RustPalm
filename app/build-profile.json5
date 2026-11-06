@@ -1,6 +1,5 @@
 {
   app: {
-    // Public default builds are unsigned. Keep signing material in a private checkout.
     signingConfigs: [],
     products: [
       {

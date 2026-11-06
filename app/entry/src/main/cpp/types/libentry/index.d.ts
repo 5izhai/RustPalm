@@ -1,8 +1,5 @@
 // RustDesk OHOS FFI (libentry.so -> librustdesk.so via dlopen).
-// Signature contract: docs/harmonyos-migration/ohos-controller-ffi.md
-//
-// All session-scoped functions take the session uuid returned by sessionNew
-// as the first argument, mirroring the C ABI one to one.
+// Session-scoped functions take the UUID returned by sessionNew first.
 
 export const init: (home: string, appDir: string, customConfig: string) => number;
 // Replaces callbacks for this ArkTS environment. They are released on environment teardown.

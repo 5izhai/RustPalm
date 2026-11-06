@@ -1,7 +1,5 @@
 // RustDesk event JSON model + in-process dispatcher.
-// Event payloads mirror FlutterHandler::push_event exactly
-// (docs/harmonyos-migration/ohos-controller-ffi.md §3): every event carries a
-// "name" field; other values are strings, null, or nested JSON strings.
+// Events carry a "name" field; payload values may contain nested JSON strings.
 
 import { evStr, evNum, evBool } from './Utils';
 
